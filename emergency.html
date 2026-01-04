@@ -70,36 +70,96 @@
         </section>
 
         <!-- QR Scanner Modal -->
-        <div id="qrModal" class="modal" style="display: none;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3><i class="fas fa-qrcode"></i> QR Code Scanner</h3>
-                    <button class="close-btn" onclick="closeQRScanner()">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="qr-scanner-placeholder">
-                        <i class="fas fa-camera"></i>
-                        <p>Camera feed would appear here</p>
-                        <div class="qr-mock">
-                            <div class="qr-box">
-                                <div class="qr-pattern"></div>
-                                <div class="qr-pattern"></div>
-                                <div class="qr-pattern"></div>
-                            </div>
-                            <p>AADHAAR:123456789012</p>
-                        </div>
+        <!-- QR Scanner Modal (REAL WORKING SCANNER) -->
+<div id="qrModal" class="modal qr-scanner-modal" style="display: none;">
+    <div class="modal-content scanner-modal-content">
+        <div class="modal-header scanner-header">
+            <h3><i class="fas fa-qrcode"></i> QR Code Scanner</h3>
+            <button class="close-btn" onclick="closeQRScanner()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="scanner-body">
+            <!-- Camera Selection -->
+            <div class="camera-selector" id="cameraSelector">
+                <label for="cameraSelect">Select Camera:</label>
+                <select id="cameraSelect" class="camera-select">
+                    <option value="">Loading cameras...</option>
+                </select>
+            </div>
+            
+            <!-- Scanner View -->
+            <div class="scanner-view">
+                <div id="qrReader" class="qr-reader">
+                    <!-- Camera feed will appear here -->
+                    <div class="scanner-overlay">
+                        <div class="scanner-frame"></div>
+                        <div class="scanner-line"></div>
                     </div>
-                    <p class="hint">Point camera at patient's Aadhaar card QR code</p>
-                    <button class="btn secondary" onclick="simulateQRScan()">
-                        <i class="fas fa-bolt"></i> Simulate QR Scan (Demo)
-                    </button>
-                    <div class="qr-upload">
-                        <p>Or upload QR image:</p>
-                        <input type="file" accept="image/*" id="qrUpload">
+                </div>
+                
+                <div class="scanner-status">
+                    <div id="scannerStatus" class="status-message">
+                        <i class="fas fa-camera"></i> Ready to scan
+                    </div>
+                    <div class="scanner-timer">
+                        <i class="fas fa-clock"></i>
+                        <span id="scanTimer">00:00</span>
                     </div>
                 </div>
             </div>
+            
+            <!-- Scan Results -->
+            <div id="scanResult" class="scan-result" style="display: none;">
+                <div class="result-success">
+                    <i class="fas fa-check-circle"></i>
+                    <h4>QR Code Scanned Successfully!</h4>
+                    <p id="scannedData"></p>
+                </div>
+                <button class="btn primary" onclick="useScannedData()">
+                    <i class="fas fa-check"></i> Use This Aadhaar
+                </button>
+            </div>
+            
+            <!-- Error Messages -->
+            <div id="scannerError" class="scanner-error" style="display: none;">
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h4 id="errorTitle">Camera Error</h4>
+                    <p id="errorMessage"></p>
+                </div>
+                <button class="btn secondary" onclick="retryCamera()">
+                    <i class="fas fa-redo"></i> Try Again
+                </button>
+            </div>
+            
+            <!-- Alternative Methods -->
+            <div class="scanner-options">
+                <div class="option-divider">
+                    <span>OR</span>
+                </div>
+                
+                <div class="option-buttons">
+                    <button class="btn option-btn" onclick="uploadQRImage()">
+                        <i class="fas fa-upload"></i> Upload QR Image
+                    </button>
+                    <button class="btn option-btn" onclick="useDemoQR()">
+                        <i class="fas fa-vial"></i> Use Demo QR
+                    </button>
+                </div>
+                
+                <div class="scanner-help">
+                    <i class="fas fa-info-circle"></i>
+                    <p>Point camera at Aadhaar card QR code. Make sure it's well-lit and centered in the frame.</p>
+                </div>
+            </div>
         </div>
+    </div>
+</div>
+
+<!-- Hidden File Input for QR Image Upload -->
+<input type="file" id="qrImageUpload" accept="image/*" style="display: none;">
 
         <!-- Loading -->
         <div id="loading" class="loading-screen" style="display: none;">
