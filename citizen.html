@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Data Vault - HealthChain</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Home
+        </a>
+        <div class="logo">
+            <i class="fas fa-user-shield"></i>
+            <h1>My Data Vault</h1>
+        </div>
+        <div class="user-info">
+            <i class="fas fa-user-circle"></i>
+            <span>Rajesh Kumar</span>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Welcome -->
+        <div class="welcome-banner">
+            <div class="welcome-content">
+                <h2><i class="fas fa-shield-alt"></i> Your Data, Your Control</h2>
+                <p>Aadhaar: •••• •••• 9012 | Data compartments: 3 | Active accesses: 2</p>
+            </div>
+            <button class="btn" onclick="generateQR()">
+                <i class="fas fa-qrcode"></i> Generate Access QR
+            </button>
+        </div>
+
+        <!-- Vault Dashboard -->
+        <section class="vault-dashboard">
+            <h2><i class="fas fa-boxes"></i> Data Vaults</h2>
+            <p class="section-desc">Your data is compartmentalized. Each institution gets access to only their vault.</p>
+            
+            <div class="vaults-grid">
+                <!-- Medical Vault -->
+                <div class="vault-card medical-vault">
+                    <div class="vault-header">
+                        <div class="vault-icon">
+                            <i class="fas fa-heart-pulse"></i>
+                        </div>
+                        <div class="vault-info">
+                            <h3>Medical Vault</h3>
+                            <p>Health records, allergies, blood type</p>
+                        </div>
+                    </div>
+                    <div class="vault-content">
+                        <div class="data-item">
+                            <span class="data-label">Blood Type</span>
+                            <span class="data-value">O+</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-label">Allergies</span>
+                            <span class="data-value alert">Penicillin, NSAIDs</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-label">Conditions</span>
+                            <span class="data-value">Hypertension, Diabetes</span>
+                        </div>
+                    </div>
+                    <div class="vault-controls">
+                        <div class="access-status">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Accessible to: Hospitals</span>
+                        </div>
+                        <button class="btn-small" onclick="manageAccess('medical')">
+                            <i class="fas fa-cog"></i> Manage
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Government Vault -->
+                <div class="vault-card govt-vault">
+                    <div class="vault-header">
+                        <div class="vault-icon">
+                            <i class="fas fa-landmark"></i>
+                        </div>
+                        <div class="vault-info">
+                            <h3>Government Vault</h3>
+                            <p>PAN, Voter ID, subsidy status</p>
+                        </div>
+                    </div>
+                    <div class="vault-content">
+                        <div class="data-item">
+                            <span class="data-label">PAN Number</span>
+                            <span class="data-value">ABCDE1234F</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-label">Voter ID</span>
+                            <span class="data-value">DL/2023/1234567</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-label">Ration Card</span>
+                            <span class="data-value">BPL-2024-001</span>
+                        </div>
+                    </div>
+                    <div class="vault-controls">
+                        <div class="access-status">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Accessible to: Govt Offices</span>
+                        </div>
+                        <button class="btn-small" onclick="manageAccess('govt')">
+                            <i class="fas fa-cog"></i> Manage
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Financial Vault -->
+                <div class="vault-card financial-vault">
+                    <div class="vault-header">
+                        <div class="vault-icon">
+                            <i class="fas fa-university"></i>
+                        </div>
+                        <div class="vault-info">
+                            <h3>Financial Vault</h3>
+                            <p>Bank accounts, credit score</p>
+                        </div>
+                    </div>
+                    <div class="vault-content">
+                        <div class="data-item">
+                            <span class="data-label">Primary Bank</span>
+                            <span class="data-value">State Bank of India</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-label">Credit Score</span>
+                            <span class="data-value">780/900</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="data-label">Account Number</span>
+                            <span class="data-value masked">•••• •••• 1234</span>
+                        </div>
+                    </div>
+                    <div class="vault-controls">
+                        <div class="access-status restricted">
+                            <i class="fas fa-times-circle"></i>
+                            <span>No active access</span>
+                        </div>
+                        <button class="btn-small" onclick="manageAccess('financial')">
+                            <i class="fas fa-cog"></i> Manage
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Access Log -->
+        <section class="access-log">
+            <div class="section-header">
+                <h2><i class="fas fa-history"></i> Access History</h2>
+                <button class="btn-small" onclick="refreshLogs()">
+                    <i class="fas fa-sync-alt"></i> Refresh
+                </button>
+            </div>
+            
+            <div class="log-table">
+                <div class="log-header">
+                    <div class="log-cell">Date & Time</div>
+                    <div class="log-cell">Vault Accessed</div>
+                    <div class="log-cell">Accessor</div>
+                    <div class="log-cell">Purpose</div>
+                    <div class="log-cell">Status</div>
+                </div>
+                <div class="log-body" id="accessLogBody">
+                    <!-- Logs will be inserted here -->
+                </div>
+            </div>
+            
+            <div class="log-stats">
+                <div class="stat">
+                    <span class="stat-number">24</span>
+                    <span class="stat-label">Total Accesses</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">18</span>
+                    <span class="stat-label">Medical Accesses</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">6</span>
+                    <span class="stat-label">Govt Accesses</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">0</span>
+                    <span class="stat-label">Financial Accesses</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- QR Generator -->
+        <div id="qrGenerator" class="qr-generator" style="display: none;">
+            <div class="qr-header">
+                <h3><i class="fas fa-qrcode"></i> Generate Access QR</h3>
+                <button class="close-btn" onclick="closeQRGenerator()">&times;</button>
+            </div>
+            <div class="qr-body">
+                <div class="qr-options">
+                    <div class="qr-option">
+                        <input type="radio" name="qrType" id="medicalQR" checked>
+                        <label for="medicalQR">
+                            <i class="fas fa-heart-pulse"></i>
+                            <span>Medical Access</span>
+                            <small>For hospitals, clinics</small>
+                        </label>
+                    </div>
+                    <div class="qr-option">
+                        <input type="radio" name="qrType" id="govtQR">
+                        <label for="govtQR">
+                            <i class="fas fa-landmark"></i>
+                            <span>Government Access</span>
+                            <small>For offices, services</small>
+                        </label>
+                    </div>
+                </div>
+                <div class="qr-display">
+                    <div class="qr-placeholder" id="qrCodeDisplay">
+                        <div class="qr-mock-large">
+                            <div class="qr-pattern"></div>
+                            <div class="qr-pattern"></div>
+                            <div class="qr-pattern"></div>
+                        </div>
+                        <p class="qr-data">HC:••••••••9012:T:MEDICAL</p>
+                    </div>
+                    <div class="qr-actions">
+                        <button class="btn" onclick="downloadQR()">
+                            <i class="fas fa-download"></i> Download QR
+                        </button>
+                        <button class="btn secondary" onclick="shareQR()">
+                            <i class="fas fa-share-alt"></i> Share
+                        </button>
+                    </div>
+                </div>
+                <div class="qr-info">
+                    <p><i class="fas fa-info-circle"></i> This QR grants temporary access to specified vault only. Expires in 24 hours.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthChain - Secure Health Data Vault</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-shield-heart"></i>
+            <h1>HealthChain</h1>
+        </div>
+        <div class="nav-menu">
+            <a href="index.html" class="active">Home</a>
+            <a href="emergency.html">Emergency Access</a>
+            <a href="myvault.html">My Vault</a>
+            <a href="forms.html">Auto-Fill Forms</a>
+        </div>
+        <button class="demo-btn" onclick="location.href='emergency.html'">
+            <i class="fas fa-play"></i> Try Demo
+        </button>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h2>One Aadhaar. Multiple Vaults. <span class="highlight">Complete Control.</span></h2>
+            <p class="subtitle">Secure compartmentalized data access for emergencies while protecting your privacy.</p>
+            
+            <div class="hero-stats">
+                <div class="stat">
+                    <i class="fas fa-bolt"></i>
+                    <h3>15 Seconds</h3>
+                    <p>Emergency medical access</p>
+                </div>
+                <div class="stat">
+                    <i class="fas fa-file-alt"></i>
+                    <h3>90% Faster</h3>
+                    <p>Government form filling</p>
+                </div>
+                <div class="stat">
+                    <i class="fas fa-lock"></i>
+                    <h3>100% Secure</h3>
+                    <p>Compartmentalized data</p>
+                </div>
+            </div>
+
+            <div class="cta-buttons">
+                <button class="btn primary" onclick="location.href='emergency.html'">
+                    <i class="fas fa-ambulance"></i> Emergency Portal
+                </button>
+                <button class="btn secondary" onclick="location.href='forms.html'">
+                    <i class="fas fa-magic"></i> Form Assistant
+                </button>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="vault-diagram">
+                <div class="aadhaar-center">
+                    <i class="fas fa-id-card"></i>
+                    <span>Aadhaar</span>
+                </div>
+                <div class="vault medical">
+                    <i class="fas fa-heart-pulse"></i>
+                    <span>Medical</span>
+                </div>
+                <div class="vault govt">
+                    <i class="fas fa-landmark"></i>
+                    <span>Government</span>
+                </div>
+                <div class="vault financial">
+                    <i class="fas fa-university"></i>
+                    <span>Financial</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <h2>How HealthChain Works</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <i class="fas fa-id-card-alt"></i>
+                <h3>Link Aadhaar</h3>
+                <p>Connect your Aadhaar as master key to encrypted data vaults</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <i class="fas fa-boxes"></i>
+                <h3>Compartmentalize</h3>
+                <p>Data separated into Medical, Government, Financial vaults</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <i class="fas fa-key"></i>
+                <h3>Grant Access</h3>
+                <p>Hospitals get medical key, govt offices get government key</p>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <i class="fas fa-shield-alt"></i>
+                <h3>Stay Protected</h3>
+                <p>Each institution sees only their compartment, never all data</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases -->
+    <section class="use-cases">
+        <h2>Real-World Use Cases</h2>
+        <div class="cases">
+            <div class="case-card emergency-case">
+                <i class="fas fa-ambulance"></i>
+                <h3>Emergency Room</h3>
+                <p>Unconscious patient → Scan Aadhaar → Get medical history instantly</p>
+                <a href="emergency.html">View Demo →</a>
+            </div>
+            <div class="case-card form-case">
+                <i class="fas fa-file-signature"></i>
+                <h3>Government Office</h3>
+                <p>Apply for ration card → Auto-fill form → Save 45 minutes</p>
+                <a href="forms.html">View Demo →</a>
+            </div>
+            <div class="case-card privacy-case">
+                <i class="fas fa-user-shield"></i>
+                <h3>Privacy Control</h3>
+                <p>See who accessed your data, revoke permissions anytime</p>
+                <a href="citizen.html">View Demo →</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>HealthChain Hackathon Project | Built for Social Good</p>
+        <p class="note">Note: This is a demo using mock data. Real implementation would integrate with UIDAI APIs.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

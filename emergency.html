@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Access - HealthChain</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Home
+        </a>
+        <div class="logo emergency-logo">
+            <i class="fas fa-ambulance"></i>
+            <h1>Emergency Medical Access</h1>
+        </div>
+        <div class="hospital-info">
+            <i class="fas fa-hospital"></i>
+            <span>Apollo Hospital (Demo)</span>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Warning Banner -->
+        <div class="warning-banner">
+            <i class="fas fa-exclamation-triangle"></i>
+            <div>
+                <strong>EMERGENCY USE ONLY</strong>
+                <p>All accesses are logged and audited. Legal action for misuse.</p>
+            </div>
+        </div>
+
+        <!-- Access Section -->
+        <section class="access-section">
+            <h2><i class="fas fa-id-card"></i> Patient Identification</h2>
+            
+            <div class="access-methods">
+                <!-- Method 1: QR Scan -->
+                <div class="method-card">
+                    <div class="method-icon">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <h3>Scan QR Code</h3>
+                    <p>Scan Aadhaar card QR for fastest access</p>
+                    <button class="btn primary" onclick="openQRScanner()">
+                        <i class="fas fa-camera"></i> Open QR Scanner
+                    </button>
+                </div>
+
+                <!-- Method 2: Manual Entry -->
+                <div class="method-card">
+                    <div class="method-icon">
+                        <i class="fas fa-keyboard"></i>
+                    </div>
+                    <h3>Manual Entry</h3>
+                    <p>Enter Aadhaar number manually</p>
+                    <div class="aadhaar-input">
+                        <input type="text" id="aadhaarInput" 
+                               placeholder="Enter 12-digit Aadhaar"
+                               maxlength="12"
+                               pattern="[0-9]{12}">
+                        <button class="btn danger" onclick="fetchPatientData()">
+                            <i class="fas fa-search-medical"></i> Access Medical Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QR Scanner Modal -->
+        <!-- QR Scanner Modal (REAL WORKING SCANNER) -->
+<div id="qrModal" class="modal qr-scanner-modal" style="display: none;">
+    <div class="modal-content scanner-modal-content">
+        <div class="modal-header scanner-header">
+            <h3><i class="fas fa-qrcode"></i> QR Code Scanner</h3>
+            <button class="close-btn" onclick="closeQRScanner()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="scanner-body">
+            <!-- Camera Selection -->
+            <div class="camera-selector" id="cameraSelector">
+                <label for="cameraSelect">Select Camera:</label>
+                <select id="cameraSelect" class="camera-select">
+                    <option value="">Loading cameras...</option>
+                </select>
+            </div>
+            
+            <!-- Scanner View -->
+            <div class="scanner-view">
+                <div id="qrReader" class="qr-reader">
+                    <!-- Camera feed will appear here -->
+                    <div class="scanner-overlay">
+                        <div class="scanner-frame"></div>
+                        <div class="scanner-line"></div>
+                    </div>
+                </div>
+                
+                <div class="scanner-status">
+                    <div id="scannerStatus" class="status-message">
+                        <i class="fas fa-camera"></i> Ready to scan
+                    </div>
+                    <div class="scanner-timer">
+                        <i class="fas fa-clock"></i>
+                        <span id="scanTimer">00:00</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Scan Results -->
+            <div id="scanResult" class="scan-result" style="display: none;">
+                <div class="result-success">
+                    <i class="fas fa-check-circle"></i>
+                    <h4>QR Code Scanned Successfully!</h4>
+                    <p id="scannedData"></p>
+                </div>
+                <button class="btn primary" onclick="useScannedData()">
+                    <i class="fas fa-check"></i> Use This Aadhaar
+                </button>
+            </div>
+            
+            <!-- Error Messages -->
+            <div id="scannerError" class="scanner-error" style="display: none;">
+                <div class="error-message">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h4 id="errorTitle">Camera Error</h4>
+                    <p id="errorMessage"></p>
+                </div>
+                <button class="btn secondary" onclick="retryCamera()">
+                    <i class="fas fa-redo"></i> Try Again
+                </button>
+            </div>
+            
+            <!-- Alternative Methods -->
+            <div class="scanner-options">
+                <div class="option-divider">
+                    <span>OR</span>
+                </div>
+                
+                <div class="option-buttons">
+                    <button class="btn option-btn" onclick="uploadQRImage()">
+                        <i class="fas fa-upload"></i> Upload QR Image
+                    </button>
+                    <button class="btn option-btn" onclick="useDemoQR()">
+                        <i class="fas fa-vial"></i> Use Demo QR
+                    </button>
+                </div>
+                
+                <div class="scanner-help">
+                    <i class="fas fa-info-circle"></i>
+                    <p>Point camera at Aadhaar card QR code. Make sure it's well-lit and centered in the frame.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hidden File Input for QR Image Upload -->
+<input type="file" id="qrImageUpload" accept="image/*" style="display: none;">
+
+        <!-- Loading -->
+        <div id="loading" class="loading-screen" style="display: none;">
+            <div class="spinner"></div>
+            <p>Accessing medical vault...</p>
+            <p class="loading-note">Verifying hospital credentials • Decrypting medical data • AI analysis in progress</p>
+        </div>
+
+        <!-- Results Display -->
+        <div id="results" class="results-section" style="display: none;">
+            <div class="results-header">
+                <h2><i class="fas fa-user-injured"></i> Patient Medical Profile</h2>
+                <div class="access-info">
+                    <span class="badge emergency-badge">EMERGENCY ACCESS</span>
+                    <span class="timestamp" id="accessTime"></span>
+                </div>
+            </div>
+
+            <!-- AI Critical Alert -->
+            <div class="critical-alert">
+                <i class="fas fa-exclamation-circle"></i>
+                <div>
+                    <h3>AI Analysis: Critical Information</h3>
+                    <p id="aiAnalysis">Loading analysis...</p>
+                </div>
+            </div>
+
+            <div class="medical-grid">
+                <!-- Patient Info -->
+                <div class="info-card">
+                    <h3><i class="fas fa-user"></i> Patient Details</h3>
+                    <div class="info-content" id="patientDetails"></div>
+                </div>
+
+                <!-- Medical History -->
+                <div class="info-card">
+                    <h3><i class="fas fa-history"></i> Medical History</h3>
+                    <div class="info-content" id="medicalHistory"></div>
+                </div>
+
+                <!-- Allergies & Alerts -->
+                <div class="info-card alert-card">
+                    <h3><i class="fas fa-skull-crossbones"></i> Critical Alerts</h3>
+                    <div class="info-content" id="criticalAlerts"></div>
+                </div>
+
+                <!-- Emergency Contacts -->
+                <div class="info-card">
+                    <h3><i class="fas fa-phone"></i> Emergency Contacts</h3>
+                    <div class="info-content" id="emergencyContacts"></div>
+                </div>
+            </div>
+
+            <!-- Privacy Protection Notice -->
+            <div class="privacy-notice">
+                <div class="privacy-header">
+                    <i class="fas fa-lock"></i>
+                    <h3>Privacy Protection Active</h3>
+                </div>
+                <p>Under data compartmentalization, the following information is NOT accessible to medical staff:</p>
+                <div class="restricted-list">
+                    <div class="restricted-item">
+                        <i class="fas fa-ban"></i>
+                        <span>Financial Information (Bank accounts, salary)</span>
+                    </div>
+                    <div class="restricted-item">
+                        <i class="fas fa-ban"></i>
+                        <span>Government Records (Tax filings, property)</span>
+                    </div>
+                    <div class="restricted-item">
+                        <i class="fas fa-ban"></i>
+                        <span>Personal Documents (PAN card, passport copies)</span>
+                    </div>
+                </div>
+                <p class="note">Access limited to medical compartment only. Complete audit trail maintained.</p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="btn" onclick="printMedicalSummary()">
+                    <i class="fas fa-print"></i> Print Summary
+                </button>
+                <button class="btn secondary" onclick="showAccessLogs()">
+                    <i class="fas fa-history"></i> View Access Log
+                </button>
+                <button class="btn danger" onclick="clearResults()">
+                    <i class="fas fa-times"></i> Clear & New Patient
+                </button>
+            </div>
+        </div>
+
+        <!-- Mock Patients for Demo -->
+        <div class="demo-patients">
+            <h3><i class="fas fa-vial"></i> Demo Test Patients</h3>
+            <p>Try these Aadhaar numbers for demonstration:</p>
+            <div class="patient-buttons">
+                <button class="patient-btn" onclick="testPatient('123456789012')">
+                    <i class="fas fa-male"></i> Rajesh Kumar (Critical Allergy)
+                </button>
+                <button class="patient-btn" onclick="testPatient('987654321098')">
+                    <i class="fas fa-female"></i> Priya Sharma (Diabetic)
+                </button>
+                <button class="patient-btn" onclick="testPatient('456789012345')">
+                    <i class="fas fa-user"></i> Amit Patel (No Critical Issues)
+                </button>
+            </div>
+        </div>
+    </main>
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <script src="script.js"></script>
+    <script src="scanner.js"></script>
+</body>
+</html>

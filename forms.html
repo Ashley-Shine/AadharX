@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Form Assistant - HealthChain</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Home
+        </a>
+        <div class="logo">
+            <i class="fas fa-magic"></i>
+            <h1>Smart Form Assistant</h1>
+        </div>
+        <div class="user-info">
+            <i class="fas fa-user-tie"></i>
+            <span>Government Service Desk</span>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Intro -->
+        <div class="form-intro">
+            <h2><i class="fas fa-robot"></i> AI-Powered Form Assistant</h2>
+            <p>Scan citizen's Aadhaar or enter number to auto-fill government forms instantly.</p>
+            <div class="time-saved">
+                <i class="fas fa-clock"></i>
+                <span>Average time saved: <strong>45 minutes</strong> per form</span>
+            </div>
+        </div>
+
+        <!-- Citizen Identification -->
+        <section class="citizen-identification">
+            <h3><i class="fas fa-id-card"></i> Identify Citizen</h3>
+            <div class="identification-methods">
+                <div class="method">
+                    <div class="method-header">
+                        <i class="fas fa-qrcode"></i>
+                        <h4>QR Code Scan</h4>
+                    </div>
+                    <p>Scan Aadhaar card QR for instant identification</p>
+                    <button class="btn" onclick="openFormQRScanner()">
+                        <i class="fas fa-camera"></i> Scan QR
+                    </button>
+                </div>
+                <div class="method">
+                    <div class="method-header">
+                        <i class="fas fa-keyboard"></i>
+                        <h4>Manual Entry</h4>
+                    </div>
+                    <div class="aadhaar-entry">
+                        <input type="text" id="formAadhaar" 
+                               placeholder="Enter Aadhaar number"
+                               maxlength="12">
+                        <button class="btn primary" onclick="loadCitizenProfile()">
+                            <i class="fas fa-user-check"></i> Verify & Load
+                        </button>
+                    </div>
+                    <p class="note">Citizen data will be fetched from their vault</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Citizen Profile Preview -->
+        <div id="citizenProfile" class="citizen-profile" style="display: none;">
+            <div class="profile-header">
+                <h3><i class="fas fa-user-check"></i> Citizen Identified</h3>
+                <span class="verified-badge">
+                    <i class="fas fa-check-circle"></i> Verified
+                </span>
+            </div>
+            <div class="profile-details">
+                <div class="detail">
+                    <span class="label">Name:</span>
+                    <span class="value" id="citizenName">Rajesh Kumar</span>
+                </div>
+                <div class="detail">
+                    <span class="label">Aadhaar:</span>
+                    <span class="value" id="citizenAadhaar">•••• •••• 9012</span>
+                </div>
+                <div class="detail">
+                    <span class="label">Address:</span>
+                    <span class="value" id="citizenAddress">Delhi 110045</span>
+                </div>
+            </div>
+            <div class="profile-actions">
+                <button class="btn-small" onclick="showAllData()">
+                    <i class="fas fa-eye"></i> View Full Profile
+                </button>
+                <button class="btn-small secondary" onclick="clearCitizen()">
+                    <i class="fas fa-times"></i> Clear
+                </button>
+            </div>
+        </div>
+
+        <!-- Form Selection -->
+        <section class="form-selection">
+            <h3><i class="fas fa-file-alt"></i> Select Form to Auto-Fill</h3>
+            <p class="section-desc">Choose a form. AI will auto-fill using citizen's vault data.</p>
+            
+            <div class="forms-grid">
+                <!-- Ration Card -->
+                <div class="form-card" onclick="selectForm('ration')">
+                    <div class="form-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div class="form-info">
+                        <h4>Ration Card Application</h4>
+                        <p>Public Distribution System</p>
+                        <div class="form-stats">
+                            <span class="stat">
+                                <i class="fas fa-clock"></i> 45 min → 2 min
+                            </span>
+                            <span class="stat">
+                                <i class="fas fa-check"></i> 22/24 fields auto-filled
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-action">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+
+                <!-- Passport -->
+                <div class="form-card" onclick="selectForm('passport')">
+                    <div class="form-icon">
+                        <i class="fas fa-passport"></i>
+                    </div>
+                    <div class="form-info">
+                        <h4>Passport Application</h4>
+                        <p>International travel document</p>
+                        <div class="form-stats">
+                            <span class="stat">
+                                <i class="fas fa-clock"></i> 60 min → 3 min
+                            </span>
+                            <span class="stat">
+                                <i class="fas fa-check"></i> 28/30 fields auto-filled
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-action">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+
+                <!-- PAN Card -->
+                <div class="form-card" onclick="selectForm('pan')">
+                    <div class="form-icon">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                    </div>
+                    <div class="form-info">
+                        <h4>PAN Card Application</h4>
+                        <p>Permanent Account Number</p>
+                        <div class="form-stats">
+                            <span class="stat">
+                                <i class="fas fa-clock"></i> 30 min → 1 min
+                            </span>
+                            <span class="stat">
+                                <i class="fas fa-check"></i> 15/16 fields auto-filled
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-action">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+
+                <!-- Voter ID -->
+                <div class="form-card" onclick="selectForm('voter')">
+                    <div class="form-icon">
+                        <i class="fas fa-vote-yea"></i>
+                    </div>
+                    <div class="form-info">
+                        <h4>Voter ID Application</h4>
+                        <p>Electoral registration</p>
+                        <div class="form-stats">
+                            <span class="stat">
+                                <i class="fas fa-clock"></i> 35 min → 2 min
+                            </span>
+                            <span class="stat">
+                                <i class="fas fa-check"></i> 18/20 fields auto-filled
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-action">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Form Display Area -->
+        <div id="formDisplay" class="form-display-area" style="display: none;">
+            <div class="form-header">
+                <h3 id="formTitle">Form Title</h3>
+                <div class="form-meta">
+                    <span class="meta-item">
+                        <i class="fas fa-robot"></i>
+                        <span id="aiFilled">0</span> fields auto-filled
+                    </span>
+                    <span class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span id="timeSaved">0</span> minutes saved
+                    </span>
+                    <span class="meta-item">
+                        <i class="fas fa-user-check"></i>
+                        <span id="citizenStatus">Citizen verified</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Form Content -->
+            <div class="form-content">
+                <div class="form-fields" id="formFields">
+                    <!-- Fields will be dynamically added here -->
+                </div>
+
+                <!-- Eligibility Check -->
+                <div class="eligibility-check">
+                    <h4><i class="fas fa-search"></i> AI Eligibility Check</h4>
+                    <div id="eligibilityResult" class="eligibility-result">
+                        <p>Checking eligibility based on citizen's data...</p>
+                    </div>
+                </div>
+
+                <!-- Document Checklist -->
+                <div class="document-checklist">
+                    <h4><i class="fas fa-clipboard-check"></i> Required Documents</h4>
+                    <div class="documents-list">
+                        <div class="document-item available">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Aadhaar Card</span>
+                            <small>Available in vault</small>
+                        </div>
+                        <div class="document-item missing">
+                            <i class="fas fa-times-circle"></i>
+                            <span>Passport Photo</span>
+                            <small>Need to upload</small>
+                        </div>
+                        <div class="document-item available">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Address Proof</span>
+                            <small>Available in vault</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="form-actions">
+                <button class="btn" onclick="printForm()">
+                    <i class="fas fa-print"></i> Print Form
+                </button>
+                <button class="btn secondary" onclick="saveForm()">
+                    <i class="
