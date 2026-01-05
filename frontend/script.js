@@ -110,6 +110,26 @@ function testPatient(aadhaar) {
     fetchPatientData();
 }
 
+function checkkey() {
+    const hospitalkey = document.getElementById('hospitalkeyInput').value.trim();
+
+    if (hospitalkey === 'HOSP1234') {
+        fetchPatientData();
+    } else {
+        showKeyPopup('Invalid Hospital Key. Access Denied.');
+    }
+}
+
+
+function showKeyPopup(message) {
+    document.getElementById('keyErrorMessage').innerText = message;
+    document.getElementById('keyErrorModal').style.display = 'flex';
+}
+
+function closeKeyModal() {
+    document.getElementById('keyErrorModal').style.display = 'none';
+}
+
 function fetchPatientData() {
     const aadhaar = document.getElementById('aadhaarInput').value.trim();
     
